@@ -37,6 +37,6 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           make build-win
-          powershell Compress-Archive -Path target\kt-cli-app target\kt-cli-app-amd64.zip
+          powershell Compress-Archive -Path .\target\kt-cli-app .\target\kt-cli-app-amd64.zip
 
 
