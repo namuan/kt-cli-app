@@ -31,7 +31,6 @@ assemble:
       attachPlatform: true
       fileSets:
         - input: 'target'
-          output: 'bin'
           includes: [ 'kt-cli-app' ]
         - input: '.'
           includes: [ 'LICENSE' ]
@@ -47,7 +46,7 @@ distributions:
     executable:
       windowsExtension: exe
     artifacts:
-      - path: "{{artifactsDir}}/kt-cli-app-{{projectVersion}}-osx-aarch_64.zip"
+      - path: "{{artifactsDir}}/kt-cli-app-{{projectVersion}}-osx-x86_64.zip"
         platform: "osx-x86_64"
       - path: "{{artifactsDir}}/kt-cli-app-{{projectVersion}}-linux-x86_64.zip"
         platform: "linux-x86_64"
