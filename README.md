@@ -9,13 +9,13 @@ Install SDKMAN! (https://sdkman.io/install)
 Download GraalVM
 
 ```shell
-sdk install java 22.2.r17-grl
+sdk install java 22.3.r19-grl
 ```
 
 Install native-image builder
 
 ```shell
-sdk use java 22.2.r17-grl
+sdk use java 22.3.r19-grl
 gu install native-image
 ```
 
@@ -28,7 +28,7 @@ Make sure you have it correctly setup if you get the following error
 ```
 
 ```shell
-export JAVA_HOME=`sdk home java 22.2.r17-grl`
+export JAVA_HOME=`sdk home java 22.3.r19-grl`
 ```
 
 ## Build
