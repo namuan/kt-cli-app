@@ -37,6 +37,7 @@ assemble:
       attachPlatform: true
       fileSets:
         - input: 'target'
+          output: 'bin'
           includes: [ 'kt-cli-app' ]
         - input: '.'
           includes: [ 'LICENSE' ]
