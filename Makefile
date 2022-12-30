@@ -10,7 +10,10 @@ setup: ## Setup required dependencies
 	echo "export GRAALVM_HOME=sdk home java 22.2.r17-grl"
 
 build: ## Builds native image
-	mvn clean package -Pnative
+	./mvnw -B clean package -Pnative --file pom.xml
+
+build-win: ## Builds native image
+	mvnw.cmd -B clean package -Pnative --file pom.xml
 
 run: ## Runs the native binary
 	./target/${PROJECTNAME}
