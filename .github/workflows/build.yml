@@ -1,8 +1,7 @@
 name: Build Native Image
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   precheck:
@@ -82,6 +81,7 @@ jobs:
 
   release:
     needs: [ precheck, build ]
+    if: endsWith(${{ needs.precheck.outputs.VERSION }}, '-SNAPSHOT')
     runs-on: ubuntu-latest
 
     steps:
