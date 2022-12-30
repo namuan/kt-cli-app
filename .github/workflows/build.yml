@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ windows-latest ]
     steps:
       - uses: actions/checkout@v3
       - uses: graalvm/setup-graalvm@v1
@@ -37,5 +37,6 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           make build-win
-          zip -r target\kt-cli-app-amd64.zip target\kt-cli-app
+          powershell Compress-Archive -Path target\kt-cli-app target\kt-cli-app-amd64.zip
+
 
