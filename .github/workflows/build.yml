@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
     steps:
       - uses: actions/checkout@v3
       - uses: graalvm/setup-graalvm@v1
@@ -23,5 +23,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           native-image-job-reports: 'true'
           cache: maven
-      - name: Build with Maven
+      - name: Build on Linux/Mac with mvnw
+        if: matrix.os != 'windows-latest'
         run: make build
+      - name: Build on Windows with mvnw.cmd
+        if: matrix.os == 'windows-latest'
+        run: make build-win
