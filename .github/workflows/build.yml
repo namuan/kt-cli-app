@@ -23,9 +23,19 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           native-image-job-reports: 'true'
           cache: maven
-      - name: Build on Linux/Mac with mvnw
-        if: matrix.os != 'windows-latest'
-        run: make build
+      - name: Build on Linux with mvnw
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          make build
+          zip -r target/kt-cli-app-amd64-linux.zip target/kt-cli-app
+      - name: Build on Mac with mvnw
+        if: matrix.os == 'macos-latest'
+        run: |
+          make build
+          zip -r target/kt-cli-app-amd64-darwin.zip target/kt-cli-app
       - name: Build on Windows with mvnw.cmd
         if: matrix.os == 'windows-latest'
-        run: make build-win
+        run: |
+          make build-win
+          zip -r target\kt-cli-app-amd64.zip target\kt-cli-app
+
