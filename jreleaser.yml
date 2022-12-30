@@ -13,7 +13,7 @@ project:
 
 release:
   github:
-    overwrite: true
+    overwrite: false
     sign: false
     changelog:
       formatted: 'ALWAYS'
@@ -24,10 +24,12 @@ release:
 
 packagers:
   brew:
+    formulaName: kt_cli_app
     active: always
     multiPlatform: true
     tap:
       owner: namuan
+      name: homebrew-tap
 
 assemble:
   archive:
