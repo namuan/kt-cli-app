@@ -16,7 +16,7 @@
         <kotlin.version>1.8.0</kotlin.version>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
-        <graalvm.version>22.2.0</graalvm.version>
+        <graalvm.version>22.1.0</graalvm.version>
         <main.class>MainKt</main.class>
         <native.maven.plugin.version>0.9.19</native.maven.plugin.version>
     </properties>
