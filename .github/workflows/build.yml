@@ -5,15 +5,34 @@ on:
     branches: [ "main" ]
 
 jobs:
+  precheck:
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.vars.outputs.VERSION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Version
+        id: vars
+        shell: bash
+        run: |
+          version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=$(echo $version)" >> $GITHUB_OUTPUT
+
   build:
+    needs: [ precheck ]
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: graalvm/setup-graalvm@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Graal toolchain
+        uses: graalvm/setup-graalvm@v1
         with:
           version: '22.3.0'
           java-version: '17'
@@ -21,23 +40,83 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           native-image-job-reports: 'true'
           cache: maven
+
+      - name: Cache Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
       - name: Build on Linux with mvnw
         if: matrix.os == 'ubuntu-latest'
         run: |
           make build
-          zip -r target/kt-cli-app-amd64-linux.zip target/kt-cli-app
+
       - name: Build on Mac with mvnw
         if: matrix.os == 'macos-latest'
         run: |
           make build
-          zip -r target/kt-cli-app-amd64-darwin.zip target/kt-cli-app
+
       - name: Build on Windows with mvnw.cmd
         if: matrix.os == 'windows-latest'
         run: |
           make build-win
-          powershell Compress-Archive -Path .\target\kt-cli-app .\target\kt-cli-app-amd64.zip
-      - name: Release with JReleaser
+
+      - name: Assemble
         uses: jreleaser/release-action@v2
+        with:
+          arguments: assemble
         env:
+          JRELEASER_PROJECT_VERSION: ${{ needs.precheck.outputs.VERSION }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JRELEASER_PROJECT_VERSION: 1.0.0
+          JRELEASER_PLATFORM_OVERRIDE: ${{ matrix.job.jreleaser_platform }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          retention-days: 1
+          name: artifacts
+          path: |
+            out/jreleaser/assemble/kt-cli-app/archive/*.zip
+
+      - name: JReleaser output
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          retention-days: 1
+          name: jreleaser-${{ matrix.os }}
+          path: |
+            out/jreleaser/trace.log
+            out/jreleaser/output.properties
+
+  release:
+    needs: [ precheck, build ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Release
+        uses: jreleaser/release-action@v2
+        with:
+          arguments: full-release -PartifactsDir=artifacts -PskipArchiveResolver
+        env:
+          JRELEASER_PROJECT_VERSION: ${{ needs.precheck.outputs.VERSION }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.PERSONAL_GH_TOKEN }}
+
+      - name: JReleaser output
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          retention-days: 1
+          name: jreleaser-release
+          path: |
+            out/jreleaser/trace.log
+            out/jreleaser/output.properties
