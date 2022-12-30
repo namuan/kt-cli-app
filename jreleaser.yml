@@ -1,0 +1,25 @@
+# {{jreleaserCreationStamp}}
+project:
+  name: kt-cli-app
+  # version: defined in variable JRELEASER_PROJECT_VERSION
+  description: Kotlin CLI app
+  longDescription: A sample application written in Kotlin
+  authors:
+    - Namuan
+  license: MIT
+  links:
+    homepage: https://github.com/namuan/kt-cli-app
+  inceptionYear: 2022
+
+release:
+  github:
+    owner: namuan
+
+distributions:
+  kt-cli-app:
+    type: NATIVE_IMAGE
+    artifacts:
+      - path: target/kt-cli-app-amd64-darwin.zip
+        platform: osx-x86_64
+      - path: target/kt-cli-app-amd64-linux.zip
+        platform: linux-aarch_64

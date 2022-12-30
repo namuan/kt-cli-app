@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ windows-latest ]
+        os: [ ubuntu-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v3
       - uses: graalvm/setup-graalvm@v1
@@ -38,5 +38,8 @@ jobs:
         run: |
           make build-win
           powershell Compress-Archive -Path .\target\kt-cli-app .\target\kt-cli-app-amd64.zip
-
-
+      - name: Release with JReleaser
+        uses: jreleaser/release-action@v2
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_PROJECT_VERSION: ${{ github.ref_name }}
