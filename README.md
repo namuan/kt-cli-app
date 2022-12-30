@@ -31,6 +31,12 @@ Make sure you have it correctly setup if you get the following error
 export JAVA_HOME=`sdk home java 22.3.r19-grl`
 ```
 
+Alternatively, use the following command from the project directory
+
+```shell
+sdk env
+```
+
 ## Build
 
 ```shell
