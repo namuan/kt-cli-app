@@ -3,8 +3,6 @@ name: Build Native Image
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -42,4 +40,4 @@ jobs:
         uses: jreleaser/release-action@v2
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JRELEASER_PROJECT_VERSION: ${{ github.ref_name }}
+          JRELEASER_PROJECT_VERSION: 1.0.0
