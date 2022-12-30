@@ -22,6 +22,12 @@ release:
       contributors:
         format: '- {{contributorName}}{{#contributorUsernameAsLink}} ({{.}}){{/contributorUsernameAsLink}}'
 
+packagers:
+  brew:
+    active: always
+    multiPlatform: true
+    tap:
+      owner: namuan
 
 assemble:
   archive:
@@ -34,8 +40,6 @@ assemble:
           includes: [ 'kt-cli-app' ]
         - input: '.'
           includes: [ 'LICENSE' ]
-
-
 
 environment:
   properties:

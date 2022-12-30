@@ -1,4 +1,4 @@
-name: Build Native Image
+name: Release Application
 
 on:
   workflow_dispatch:
