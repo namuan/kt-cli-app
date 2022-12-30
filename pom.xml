@@ -6,7 +6,7 @@
 
     <artifactId>kt-cli-app</artifactId>
     <groupId>com.github.namuan.kt_cli_app</groupId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <packaging>jar</packaging>
 
     <name>kt-cli-app</name>
