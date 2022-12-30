@@ -2,6 +2,14 @@
 
 This is a sample Kotlin command line application.
 
+## Install this application
+
+### MacOS X
+
+```shell
+brew install namuan/tap/kt-cli-app
+```
+
 ## Setup
 
 Install SDKMAN! (https://sdkman.io/install)
