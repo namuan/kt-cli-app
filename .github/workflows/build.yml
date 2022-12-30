@@ -81,7 +81,7 @@ jobs:
 
   release:
     needs: [ precheck, build ]
-    if: ! endsWith(${{ needs.precheck.outputs.VERSION }}, '-SNAPSHOT')
+    if: !endsWith(${{ needs.precheck.outputs.VERSION }}, '-SNAPSHOT')
     runs-on: ubuntu-latest
 
     steps:
