@@ -40,7 +40,7 @@ assemble:
       fileSets:
         - input: 'target'
           output: 'bin'
-          includes: [ 'kt-cli-app' ]
+          includes: [ 'kt-cli-app{.exe,}' ]
         - input: '.'
           includes: [ 'LICENSE' ]
 
