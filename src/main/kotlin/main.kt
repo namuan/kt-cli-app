@@ -7,7 +7,8 @@ import java.net.URL
 fun main(args: Array<String>) = CurrencyCommand().main(args)
 
 class CurrencyCommand : CliktCommand(help = "Returns currency exchange rate in PLN") {
-    val currency by option(help = Currency.values().joinToString(" and ")).enum<Currency>().default(Currency.USD)
+    private val currency by option(help = Currency.values().joinToString(" and ")).enum<Currency>()
+        .default(Currency.USD)
     override fun run() {
         echo("Chosen currency: $currency")
         echo("Exchange rate to PLN: ${CurrencyFetchService.fetch(currency)}")
